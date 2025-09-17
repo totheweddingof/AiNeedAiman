@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,24 +11,29 @@
     <title>Ain & Aiman</title>
 </head>
 
-<audio id="weddingSound" type="audio/mp3" src="./music/page.mp3" preload="auto"></audio>
+<audio id="weddingSound" src="./music/page.mp3" preload="auto"></audio>
+<audio id="audio-player" src="./music/angah.mp3" loop preload="auto"></audio>
 
 <!-- Let the weddingSound to be play after user click the "buka" button. -->
 <script>
 function toggleOverlay() {
   const overlay = document.getElementById('overlay');
-  const audio = document.getElementById('weddingSound');
+  const weddingSound = document.getElementById('weddingSound');
+  const angahSound = document.getElementById('audio-player');
 
-  if (overlay.style.display === 'none' || !overlay.style.display) {
-    overlay.style.display = 'flex';
-    audio.play();
-  } else {
-    overlay.style.display = 'none';
-    audio.pause();
-    audio.currentTime = 0; // Reset
-  }
+  // Show overlay (if you want to)
+  overlay.style.display = 'flex';
+
+  // Play the intro sound
+  weddingSound.play();
+
+  // When intro ends, play angah.mp3
+  weddingSound.onended = function () {
+    angahSound.play();
+  };
 }
 </script>
+
 
 <body>
     <div class="wrapper">
