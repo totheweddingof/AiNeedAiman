@@ -11,28 +11,41 @@
     <title>Ain & Aiman</title>
 </head>
 
+<!-- Audio elements WITHOUT autoplay -->
 <audio id="weddingSound" src="./music/page.mp3" preload="auto"></audio>
-<audio id="audio-player" src="./music/angah.mp3" loop preload="auto"></audio>
+<audio id="audio-player" src="./music/angah.mp3" preload="auto" loop></audio>
 
-<!-- Let the weddingSound to be play after user click the "buka" button. -->
+<!-- Your overlay and open button -->
+<div id="overlay" style="display:none;">
+  <!-- your overlay content here -->
+</div>
+
 <script>
-function toggleOverlay() {
+  const openBtn = document.getElementById('openBtn');
   const overlay = document.getElementById('overlay');
   const weddingSound = document.getElementById('weddingSound');
-  const angahSound = document.getElementById('audio-player');
+  const angah = document.getElementById('audio-player');
 
-  // Show overlay (if you want to)
-  overlay.style.display = 'flex';
+  openBtn.addEventListener('click', () => {
+    // Show overlay
+    overlay.style.display = 'flex';
 
-  // Play the intro sound
-  weddingSound.play();
-
-  // When intro ends, play angah.mp3
-  weddingSound.onended = function () {
-    angahSound.play();
-  };
-}
+    // Play the intro audio on user gesture
+    weddingSound.play().then(() => {
+      // When intro ends, start background music
+      weddingSound.onended = () => {
+        angah.play().catch(err => {
+          console.warn('Background music play failed:', err);
+          // Optionally show a message: "Tap to enable background music"
+        });
+      };
+    }).catch(err => {
+      console.warn('Intro audio play failed:', err);
+      // Optionally show a message to user to interact again
+    });
+  });
 </script>
+
 
 
 <body>
@@ -42,7 +55,7 @@ function toggleOverlay() {
                 <button id="toggle-content" class="toggle-button" onclick="toggleOverlay()">
                     <p>Ain</p>
                     <p>Aiman</p>
-                    <p class="buka">Buka</p>
+                    <p  id="openBtn" class="buka">Buka</p>
                 </button>
             </div>
         </div>
